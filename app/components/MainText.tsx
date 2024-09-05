@@ -1,27 +1,23 @@
-import React from 'react'
-import { View, StyleSheet, useWindowDimensions, Text } from 'react-native';
-import { clamp } from 'react-native-reanimated';
-import { calculateNewMassToMatchDuration } from 'react-native-reanimated/lib/typescript/reanimated2/animation/springUtils';
+import * as React from "react";
+import { Text } from "@rneui/base";
+import { useWindowDimensions } from 'react-native';
 
 export default () => {
-    return (
-        <Text style={styles.h1Style}>
-            A maior plataforma de Genéricos do Brasil!
-        </Text>
-    );
+  const { width, height } = useWindowDimensions();
+  let font = width >= 420 ? 50 : 40;
+  return (
+    <Text
+      h1
+      h1Style={{fontSize: font, marginTop: height * 0.22, marginLeft:width*0.02, fontWeight:"600", color: '#a865d4'}}
+      h2Style={{}}
+      h3Style={{}}
+      h4Style={{}}
+      style={{}}
+    >
+      A maior plataforma de Genéricos do Brasil!
+    </Text>
+  );
 }
 
 
-const { width, height } = useWindowDimensions();
-const styles = StyleSheet.create({
-    h1Style: {
-        color: '#575757',
-        marginTop: height * 0.22,
-        //fontSize: '3vw',
-        // textAlign: 'left',
-        // marginLeft: width * 0.03
-    }
-// Ajustar h1
 // https://reactnativeelements.com/docs/components/text
-
-});
