@@ -11,16 +11,15 @@ const BarSuperior = () => {
         authContext.logout()
     }
     return (
-        <View style={[styles.top, {width: width}]}>
-            <SimpleLineIcons name="logout" size={24} color="red" onPress={logout} />
+        <View style={[styles.top, {width: width,height: width >= 768 ? 70:50, display: 'flex', justifyContent:'center'}]}>
+            <SimpleLineIcons name="logout" size={24} color="red" onPress={logout} style={{ right: 25, position:'absolute'}}/>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     top: {
-        backgroundColor: "black",
-        height: 300
+        backgroundColor: "#2C3E50",
     }
 });
 
