@@ -33,9 +33,8 @@ const FormLogin = ({ navigation }: { navigation: any }) => {
         }
 
         try {
-            const authData = await authContext.login(email, password); // Chama o login no contexto
+            const authData = await authContext.login(email, password);
             if (authData?.token) {
-                await AsyncStorage.setItem('userEmail', email);
                 navigation.navigate('Home', { email });
             } else {
                 setMensagem('E-mail ou senha incorretos!');

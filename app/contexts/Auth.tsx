@@ -10,7 +10,7 @@ import { Alert } from "react-native";
 
 interface AuthContextData {
     authData?: AuthData;
-    login: (email:string, senha:string) => Promise<AuthData>;
+    login: (email:string, senha:string) => Promise<AuthData | undefined>;
     logout: () => Promise<void>
 }
 
@@ -19,15 +19,16 @@ export const AuthContext = createContext<AuthContextData>(
 );
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [authData, setAuthData] = useState<AuthData>();
+    const [authData, setAuthData] = useState<AuthData | undefined>(undefined);
 
-    async function login(email:string, senha: string): Promise<AuthData>{
+    async function login(email:string, senha: string): Promise<AuthData | undefined> {
         try {
             const auth = await authServise.login(email, senha);
             setAuthData(auth);
             return auth;
         } catch (error) {
-            Alert.alert(error.message)
+            // Alert.alert(Error.arguments)
+            return undefined;
         }
     }
 
