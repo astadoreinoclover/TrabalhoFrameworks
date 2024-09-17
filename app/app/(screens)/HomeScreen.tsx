@@ -1,26 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import BarSuperior from '@/components/bars/BarSuperior';
-
+import { AuthContext } from '@/contexts/Auth';
 export default function HomeScreen() {
   const [email, setEmail] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchEmail = async () => {
-      try {
-        const storedEmail = await AsyncStorage.getItem('userEmail');
-        if (storedEmail !== null) {
-          setEmail(storedEmail);
-        }
-      } catch (error) {
-        console.error('Failed to load email from AsyncStorage', error);
-      }
-    };
-
-    fetchEmail();
-  }, []);
-
+  const authContext = useContext(AuthContext);
+  
+  console.log(authContext.authData?.token);
   return (
     <View style={styles.container}>
       <BarSuperior />

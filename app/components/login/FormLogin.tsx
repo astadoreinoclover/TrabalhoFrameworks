@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, useWindowDimensions  } from 'react-native';
+import { AuthContext } from '@/contexts/Auth';
 
 const FormLogin = ({ navigation }: { navigation: any }) => {
     const { width, height } = useWindowDimensions();
@@ -8,36 +9,44 @@ const FormLogin = ({ navigation }: { navigation: any }) => {
     const [password, setPassword] = useState('');
     const [wrongInput, setWrongInput] = useState(false);
     const [mensagem, setMensagem] = useState('')
-    
+    const authContext = useContext(AuthContext);
+
     const validateEmail = (email: string) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     };
     
-    const handleLogin = async ()  => {
+    const handleLogin = async () => {
+        setWrongInput(false); // Resetando estado de erro
+
+        // Validação de email e senha
         if (!validateEmail(email)) {
-          setMensagem('Por favor, insira um e-mail válido.');
-          setWrongInput(true);
-          return;
-        }
-        if (password.length < 8) {
-          setMensagem('A senha deve ter no mínimo 8 caracteres.');
-          setWrongInput(true);
-          return;
-        }
-        const validEmail = 'renato@gmail.com';
-        const validPassword = '123456789';
-        
-        if (email === validEmail && password === validPassword) {
-            await AsyncStorage.setItem('userEmail', email);
-            navigation.navigate('Home', { email });
-        } else {
-            setMensagem('E-mail ou senha incorretos!');
+            setMensagem('Por favor, insira um e-mail válido.');
             setWrongInput(true);
             return;
         }
-    };
 
+        if (password.length < 8) {
+            setMensagem('A senha deve ter no mínimo 8 caracteres.');
+            setWrongInput(true);
+            return;
+        }
+
+        try {
+            const authData = await authContext.login(email, password); // Chama o login no contexto
+            if (authData?.token) {
+                await AsyncStorage.setItem('userEmail', email);
+                navigation.navigate('Home', { email });
+            } else {
+                setMensagem('E-mail ou senha incorretos!');
+                setWrongInput(true);
+            }
+        } catch (error) {
+            setMensagem('Erro ao tentar logar. Tente novamente.');
+            setWrongInput(true);
+        }
+    };
+    
     return (
         <View style={[styles.loginContainer, {width: width * 0.85, padding: width >= 768 ? 20:0}]}>
             <Text style={styles.loginTitle}>Login</Text>
