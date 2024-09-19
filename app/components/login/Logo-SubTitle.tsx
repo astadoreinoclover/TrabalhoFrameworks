@@ -8,7 +8,7 @@ const LogoSubTitle = () => {
         <View style={styles.logo}>
           <Text style={styles.logoText}>Logo</Text>
         </View>
-        <Text style={[styles.welcomeText, {fontSize: width >= 768 ? 35:20}]}>Bem-vindo à Work Pass, onde a inovação encontra a motivação!</Text>
+        <Text style={[styles.welcomeText, {fontSize: width >= 768 ? 35:20, textAlign: width >= 768 ? 'center': 'left'}]}>Transforme a cultura da sua empresa com a maior plataforma de endomarketing e gamificação para empresas.</Text>
       </View>
     )
 }

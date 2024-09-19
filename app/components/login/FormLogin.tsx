@@ -1,9 +1,8 @@
 import React, { useContext, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, useWindowDimensions  } from 'react-native';
 import { AuthContext } from '@/contexts/Auth';
 
-const FormLogin = ({ navigation }: { navigation: any }) => {
+const FormLogin = () => {
     const { width, height } = useWindowDimensions();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -34,9 +33,8 @@ const FormLogin = ({ navigation }: { navigation: any }) => {
 
         try {
             const authData = await authContext.login(email, password);
-            if (authData?.token) {
-                navigation.navigate('Home', { email });
-            } else {
+            if (!authData?.token) {
+                // navigation.navigate('Home', { email });
                 setMensagem('E-mail ou senha incorretos!');
                 setWrongInput(true);
             }

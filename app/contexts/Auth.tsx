@@ -5,8 +5,8 @@ import { Alert } from "react-native";
 
  export interface AuthData {
     token:string;
-        email:string;
-        name: string;
+    email:string;
+    name: string;
 }
 
 interface AuthContextData {
