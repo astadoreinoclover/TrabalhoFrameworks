@@ -1,15 +1,21 @@
 import React from "react";
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import HomeScreen from "../(screens)/HomeScreen";
+import Perfil from "../(screens)/Perfil";
 import Tasks from "../(screens)/Tasks";
+import Rankings from "../(screens)/Rankings";
+import Relatorios from "../(screens)/Relatorios";
+import Funcionarios from "../(screens)/Funcionarios";
 
 const Stack = createNativeStackNavigator();
 
 export function AppStack() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}}/>
+            <Stack.Screen name="Perfil" component={Perfil} options={{headerShown: false}}/>
             <Stack.Screen name="Tasks" component={Tasks} options={{headerShown: false}}/>
+            <Stack.Screen name="Rankings" component={Rankings} options={{headerShown: false}}/>
+            <Stack.Screen name="Relatorios" component={Relatorios} options={{headerShown: false}}/>
+            <Stack.Screen name="Funcionarios" component={Funcionarios} options={{headerShown: false}}/>
         </Stack.Navigator>
     )
 }
