@@ -4,6 +4,7 @@ import BarSuperior from '@/components/bars/BarSuperior';
 import { AuthContext } from '@/contexts/Auth';
 import BarInferior from '@/components/bars/BarInferior';
 import Ranking from '@/components/rankings/Ranking';
+import Filter from '@/components/rankings/Filter';
 
 export default function Rankings() {
   const { width, height } = useWindowDimensions();
@@ -16,13 +17,15 @@ export default function Rankings() {
     setName(authContext.authData?.name || null)
   }, [authContext.authData]);
   
+  
   console.log(authContext.authData?.token);
   return (
     <View style={styles.container}>
       <View style={{position: 'absolute', top:0}}><BarSuperior /></View>
       <View style={{display: 'flex',flexDirection: width >=768 ? 'row' : 'column', height: width >=768 ? height*0.6: height*0.8}}>
         <View style={{width: width*0.5, right:0, position: 'relative', alignItems: 'center'}}>
-          <Text style={{fontSize: 32, color: '#2c3e50', fontWeight: 'bold'}}>Ranking</Text>
+          <Text style={[styles.title,{fontSize: width>=768 ?25:18}]}>Ranking</Text>
+          <Filter />
         </View>
         <View style={{width: width*0.5, left:0, position: 'relative', alignItems: 'center'}}><Ranking /></View>
       </View>
@@ -38,6 +41,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 24,
+    color: '#2c3e50',
+    fontWeight: 'bold'
   },
 });

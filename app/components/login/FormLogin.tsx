@@ -16,9 +16,9 @@ const FormLogin = () => {
     };
     
     const handleLogin = async () => {
-        setWrongInput(false); // Resetando estado de erro
+        setWrongInput(false);
 
-        // Validação de email e senha
+        
         if (!validateEmail(email)) {
             setMensagem('Por favor, insira um e-mail válido.');
             setWrongInput(true);

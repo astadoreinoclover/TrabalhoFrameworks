@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, useWindowDimensions, ScrollView } from 'react-native';
 import { AuthContext } from '@/contexts/Auth';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Importando AsyncStorage
 import ScrollViewIndicator from 'react-native-scroll-indicator';
-
 
 type Employee = {
   id: number;
@@ -11,7 +11,7 @@ type Employee = {
   points: number;
 };
 
-const employees: Employee[] = [
+export const employees = [
   { id: 1, name: 'Ana Silva', department: 'Marketing', points: 150 },
   { id: 2, name: 'Carlos Souza', department: 'Financeiro', points: 200 },
   { id: 3, name: 'Maria Oliveira', department: 'TI', points: 300 },
@@ -32,14 +32,37 @@ export default function Ranking() {
   const { width, height } = useWindowDimensions();
   const [email, setEmail] = useState<string | null>(null);
   const [name, setName] = useState<string | null>(null);
+  const [filter, setFilter] = useState<string | null>(null);
+  const [period, setPeriod] = useState<string | null>(null);
   const authContext = useContext(AuthContext);
 
   useEffect(() => {
     setEmail(authContext.authData?.email || null);
     setName(authContext.authData?.name || null);
+    
+    const fetchFilter = async () => {
+      try {
+        const value = await AsyncStorage.getItem('Departament-Ranking');
+        setFilter(value);
+        const periodo = await AsyncStorage.getItem('Period-Ranking');
+        setPeriod(period)
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    fetchFilter(); 
+
+    const interval = setInterval(fetchFilter, 1000);
+
+    return () => clearInterval(interval); 
   }, [authContext.authData]);
 
-  const sortedEmployees = employees.sort((a, b) => b.points - a.points);
+  const filteredEmployees = filter === 'Geral' || !filter
+    ? employees
+    : employees.filter(employee => employee.department === filter);
+
+  const sortedEmployees = filteredEmployees.sort((a, b) => b.points - a.points);
 
   const renderEmployee = ({ item, index }: { item: Employee; index: number }) => (
     <View style={styles.row}>
@@ -52,25 +75,25 @@ export default function Ranking() {
 
   return (
     <View style={[styles.container, {width: width >=768? width*0.4: width*0.9, height: width >=768? height*0.6 : height*0.4}]}>
-        <View style={styles.tableHeader}>
-            <Text style={[styles.headerCell, {fontSize: width >768?18:10}]}>Posição</Text>
-            <Text style={[styles.headerCell, {fontSize: width >768?18:10}]}>Nome</Text>
-            <Text style={[styles.headerCell, {fontSize: width >768?18:10}]}>Departamento</Text>
-            <Text style={[styles.headerCell, {fontSize: width >768?18:10}]}>Pontos</Text>
-        </View>
-        <ScrollViewIndicator 
-            shouldIndicatorHide={false}
-            flexibleIndicator= {true}
-            scrollIndicatorStyle = {{backgroundColor: "#2c3e50"}}
-            scrollIndicatorContainerStyle= {{backgroundColor: "rgba(255, 255, 255, 0.5)"}}
-        >
-            <FlatList
-            data={sortedEmployees}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={renderEmployee}
-            scrollEnabled={false} // Desativar rolagem do FlatList
-            />
-        </ScrollViewIndicator>
+      <View style={styles.tableHeader}>
+        <Text style={[styles.headerCell, {fontSize: width >768?18:10}]}>Posição</Text>
+        <Text style={[styles.headerCell, {fontSize: width >768?18:10}]}>Nome</Text>
+        <Text style={[styles.headerCell, {fontSize: width >768?18:10}]}>Departamento</Text>
+        <Text style={[styles.headerCell, {fontSize: width >768?18:10}]}>Pontos</Text>
+      </View>
+      <ScrollViewIndicator 
+        shouldIndicatorHide={false}
+        flexibleIndicator={true}
+        scrollIndicatorStyle={{backgroundColor: "#2c3e50"}}
+        scrollIndicatorContainerStyle={{backgroundColor: "rgba(255, 255, 255, 0.5)"}}
+      >
+        <FlatList
+          data={sortedEmployees}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderEmployee}
+          scrollEnabled={true}
+        />
+      </ScrollViewIndicator>
     </View>
   );
 }
