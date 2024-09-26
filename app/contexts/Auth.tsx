@@ -1,7 +1,8 @@
 import { authServise } from "@/services/AuthService";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { createContext, ReactNode, useEffect, useState } from "react";
+import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { Alert } from "react-native";
+import { RankingContext } from "./RankingContext";
 
  export interface AuthData {
     token:string;
@@ -21,6 +22,7 @@ export const AuthContext = createContext<AuthContextData>(
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [authData, setAuthData] = useState<AuthData | undefined>(undefined);
+    const { resetFilters } = useContext(RankingContext);
 
     useEffect(() => {
         loadFromSWtorage();
@@ -38,6 +40,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             const auth = await authServise.login(email, senha);
             setAuthData(auth);
             AsyncStorage.setItem('@AuthData', JSON.stringify(auth))
+            resetFilters()
             return auth;
         } catch (error) {
             // Alert.alert(Error.arguments)
@@ -48,6 +51,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     async function logout(): Promise<void> {
         setAuthData(undefined);
         AsyncStorage.removeItem("@AuthData")
+        AsyncStorage.removeItem("Period-Ranking");
+        AsyncStorage.removeItem("Departament-Ranking");
+        resetFilters();
         return;
     }
     return(
