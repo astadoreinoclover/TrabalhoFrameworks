@@ -8,6 +8,10 @@ import { RankingContext } from "./RankingContext";
     token:string;
     email:string;
     name: string;
+    numero: string;
+    cpf: string;
+    dataNascimento: string;
+
 }
 
 interface AuthContextData {

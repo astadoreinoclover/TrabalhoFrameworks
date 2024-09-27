@@ -1,7 +1,7 @@
 import { useNavigation } from 'expo-router';
 import React, { useContext, useState } from 'react';
 import { View, useWindowDimensions, StyleSheet, Pressable, Text } from 'react-native';
-import { NavigationProp } from '@react-navigation/native'; // Certifique-se de ter este tipo importado
+import { NavigationProp } from '@react-navigation/native'; 
 import { RootStackParamList } from '../navigation/types';
 import { useNavigationState } from '@react-navigation/native';
 

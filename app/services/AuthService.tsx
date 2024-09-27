@@ -8,7 +8,10 @@ async function login(email: string, senha: string):Promise<AuthData> {
                 resolve({
                     token: 'test-token-fake',
                     email,
-                    name: 'Renato'
+                    name: 'Renato',
+                    numero: '(53) 991000000',
+                    cpf: '000.000.000-00',
+                    dataNascimento: '24/12/2001'
                 })
             } else {
                 reject(new Error('Credenciais invalidas'))

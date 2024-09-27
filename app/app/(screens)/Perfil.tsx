@@ -1,13 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet, useWindowDimensions } from 'react-native';
 import BarSuperior from '@/components/bars/BarSuperior';
 import { AuthContext } from '@/contexts/Auth';
 import BarInferior from '@/components/bars/BarInferior';
+import UserProfile from '@/components/perfil/PerfilComp';
 
 export default function Perfil() {
   const [email, setEmail] = useState<string | null>(null);
   const [name, setName] = useState<string | null>(null);
   const authContext = useContext(AuthContext);
+  const { width, height } = useWindowDimensions();
 
   useEffect(() => {
     setEmail(authContext.authData?.email || null);
@@ -18,9 +20,7 @@ export default function Perfil() {
   return (
     <View style={styles.container}>
       <View style={{position: 'absolute', top:0}}><BarSuperior /></View>
-      <Text style={styles.title}>Bem-vindo à Tela Inicial!</Text>
-      <Text style={styles.title}>Seu e-mail é: {email ? email : 'Não disponível'}</Text>
-      <Text style={styles.title}>Seu nome é: {name ? name : 'Não disponível'}</Text>
+      <View style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}><UserProfile /></View>
       <View style={{position: 'absolute', bottom:0}}><BarInferior /></View>
     </View>
   );
