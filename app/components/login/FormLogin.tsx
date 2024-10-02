@@ -46,7 +46,7 @@ const FormLogin = () => {
     
     return (
         <View style={[styles.loginContainer, {width: width * 0.85, padding: width >= 768 ? 20:0}]}>
-            <Text style={styles.loginTitle}>Login</Text>
+            <Text style={styles.loginTitle}>Entrar</Text>
             <View style={[styles.areaLogin, {width: width >= 768 ? '80%': "90%", padding: width >= 768 ? 30:15}]}>
                 <Text>Email</Text>
                 <TextInput
@@ -69,7 +69,7 @@ const FormLogin = () => {
                     {wrongInput && <Text style={styles.alertText}>{mensagem}</Text>}
                 </View>
                 <TouchableOpacity testID="loginButton" style={[styles.button, {padding: width >= 768 ? 15:10}]} onPress={handleLogin}>
-                    <Text style={styles.buttonText}>Login</Text>
+                    <Text style={styles.buttonText}>Entrar</Text>
                 </TouchableOpacity>
             </View>
         </View>
