@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Alert, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Alert, TextInput, TouchableOpacity, ScrollView, useWindowDimensions } from 'react-native';
 import BarSuperior from '@/components/bars/BarSuperior';
 import { AuthContext } from '@/contexts/Auth';
 import BarInferior from '@/components/bars/BarInferior';
 import { getRanking, updateEmployee, deleteEmployee } from '@/services/RankingService';
+
 
 type Employee = {
   id: number;
@@ -20,6 +21,7 @@ export default function Funcionarios() {
   const [editedName, setEditedName] = useState<string>('');
   const [editedDepartment, setEditedDepartment] = useState<string>('');
   const [editedPoints, setEditedPoints] = useState<number | null>(null);
+  const { width } = useWindowDimensions();
   
   const authContext = useContext(AuthContext);
 
@@ -84,9 +86,9 @@ export default function Funcionarios() {
 
   const renderEmployee = ({ item }: { item: Employee }) => (
     <View style={styles.employeeRow}>
-      <Text style={styles.employeeText}>{item.name}</Text>
-      <Text style={styles.employeeText}>{item.department}</Text>
-      <Text style={styles.employeeText}>{item.points} pontos</Text>
+      <Text style={[styles.employeeText, {fontSize: width >= 768?14:10}]}>{item.name}</Text>
+      <Text style={[styles.employeeText, {fontSize: width >= 768?14:10}]}>{item.department}</Text>
+      <Text style={[styles.employeeText, {fontSize: width >= 768?14:10}]}>{item.points}</Text>
       <TouchableOpacity style={styles.editButton} onPress={() => handleEdit(item)}>
         <Text style={styles.buttonText}>Editar</Text>
       </TouchableOpacity>
@@ -99,44 +101,43 @@ export default function Funcionarios() {
   return (
     <View style={styles.container}>
       <View style={{ position: 'absolute', top: 0 }}><BarSuperior /></View>
-      <Text style={styles.title}>Bem-vindo à Tela Funcionários!</Text>
-      <Text style={styles.subTitle}>Seu e-mail é: {email ? email : 'Não disponível'}</Text>
-      <Text style={styles.subTitle}>Seu nome é: {name ? name : 'Não disponível'}</Text>
+        <ScrollView style={{marginTop:50, width: width >=768?width*0.8:width*0.95}}>
+          <FlatList
+          data={employees}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderEmployee}
+          style={styles.list}
+        />
 
-      <FlatList
-        data={employees}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderEmployee}
-        style={styles.list}
-      />
-
-      {editingEmployee && (
-        <View style={styles.editContainer}>
-          <Text style={styles.editTitle}>Editando Funcionário</Text>
-          <TextInput
-            style={styles.input}
-            value={editedName}
-            onChangeText={setEditedName}
-            placeholder="Nome"
-          />
-          <TextInput
-            style={styles.input}
-            value={editedDepartment}
-            onChangeText={setEditedDepartment}
-            placeholder="Departamento"
-          />
-          <TextInput
-            style={styles.input}
-            value={editedPoints ? editedPoints.toString() : ''}
-            onChangeText={(text) => setEditedPoints(Number(text))}
-            placeholder="Pontos"
-            keyboardType="numeric"
-          />
-          <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-            <Text style={styles.buttonText}>Salvar</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+        {editingEmployee && (
+          <View style={styles.editContainer}>
+            <Text style={styles.editTitle}>Editando Funcionário</Text>
+            <TextInput
+              style={styles.input}
+              value={editedName}
+              onChangeText={setEditedName}
+              placeholder="Nome"
+            />
+            <TextInput
+              style={styles.input}
+              value={editedDepartment}
+              onChangeText={setEditedDepartment}
+              placeholder="Departamento"
+            />
+            <TextInput
+              style={styles.input}
+              value={editedPoints ? editedPoints.toString() : ''}
+              onChangeText={(text) => setEditedPoints(Number(text))}
+              placeholder="Pontos"
+              keyboardType="numeric"
+            />
+            <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+              <Text style={styles.buttonText}>Salvar</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </ScrollView>
+      
 
       <View style={{ position: 'absolute', bottom: 0 }}><BarInferior /></View>
     </View>
@@ -186,20 +187,19 @@ const styles = StyleSheet.create({
   editButton: {
     backgroundColor: '#00A699',
     paddingVertical: 8,
-    paddingHorizontal: 15,
+    paddingHorizontal: 5,
     borderRadius: 5,
     marginRight: 5,
   },
   deleteButton: {
     backgroundColor: '#FF5A5F',
     paddingVertical: 8,
-    paddingHorizontal: 15,
+    paddingHorizontal: 5,
     borderRadius: 5,
   },
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 14,
   },
   editContainer: {
     backgroundColor: '#fff',
