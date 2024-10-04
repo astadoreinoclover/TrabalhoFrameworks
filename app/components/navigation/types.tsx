@@ -4,4 +4,6 @@ export type RootStackParamList = {
     Rankings: undefined;
     Relatorios: undefined;
     Funcionarios: undefined;
+    TrocaDeSenha: undefined;
+    EditarDados: undefined;
 };

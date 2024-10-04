@@ -5,7 +5,7 @@ import { useNavigation } from 'expo-router';
 import { NavigationProp } from '@react-navigation/native'; 
 import { RootStackParamList } from '../navigation/types';
 
-const LockButton: React.FC = () => {
+const DadosButton: React.FC = () => {
     const { width } = useWindowDimensions();
     const isLargeScreen = width >= 768;
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -43,7 +43,7 @@ const LockButton: React.FC = () => {
 
     return (
         <Pressable
-            onPress={() => {navigation.navigate('TrocaDeSenha')}}
+        onPress={() => {navigation.navigate('EditarDados')}}
             onHoverIn={() => {
                 if (isLargeScreen) {
                     setIsHovered(true);
@@ -61,14 +61,18 @@ const LockButton: React.FC = () => {
             <Animated.View style={[styles.button, { width: isLargeScreen ? animatedWidth : 150 }]}>
                 <View style={styles.iconContainer}>
                     <Svg width={isLargeScreen ? 24 : 16} height={isLargeScreen ? 24 : 16} viewBox="0 0 24 24" fill="none">
-                        <Path 
-                            d="M12 2a4 4 0 00-4 4v4H7a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1V11a1 1 0 00-1-1h-1V6a4 4 0 00-4-4zm-2 4a2 2 0 014 0v4h-4V6zm5 10a1 1 0 11-2 0 1 1 0 012 0zm-3 1v2h2v-2h-2z"
+                        <Path
+                            d="M14.69 2.86l1.96 1.96-9.83 9.83L4.86 12.7l9.83-9.83zm3.54 3.54l-2.12-2.12L19.27 1a.996.996 0 011.41 0l2.12 2.12c.39.39.39 1.02 0 1.41l-2.12 2.12-2.45-2.45zM2 17.25V21h3.75L17.81 8.94l-3.75-3.75L2 17.25zm3.71 1.79L3 18.34v2.37h2.37l1.79-1.79H5.71z"
                             fill="#fff"
+                        />
+                        <Path
+                            d="M3 20.5h2.37v-2.37l-1.96 1.96-1.41 1.41c-.39.39-.39 1.02 0 1.41l.29.29c.39.39 1.02.39 1.41 0L3 20.5z"
+                            fill="#000" opacity="0.5"
                         />
                     </Svg>
                 </View>
                 <Animated.Text style={[styles.buttonText, { fontSize: isLargeScreen ? 16 : 10, opacity: isLargeScreen ? animatedOpacity : 1 }]}>
-                    Troca de senha
+                    Editar dados
                 </Animated.Text>
             </Animated.View>
         </Pressable>
@@ -77,8 +81,8 @@ const LockButton: React.FC = () => {
 
 const styles = StyleSheet.create({
     pressableContainer: {
-        position: 'absolute',
-        bottom: 5,
+        position: 'absolute', 
+        bottom: 60,
         right: 20,
         borderRadius: 25,
         overflow: 'hidden',
@@ -94,12 +98,12 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
     },
     iconContainer: {
-        width: 50,
+        width: 50, 
         height: 50,
         borderRadius: 25,
         backgroundColor: '#2C3E50',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'center', 
     },
     buttonText: {
         color: '#fff',
@@ -107,4 +111,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default LockButton;
+export default DadosButton;

@@ -5,6 +5,8 @@ import Tasks from "../(screens)/Tasks";
 import Rankings from "../(screens)/Rankings";
 import Relatorios from "../(screens)/Relatorios";
 import Funcionarios from "../(screens)/Funcionarios";
+import TrocaDeSenha from "../(screens)/TrocaDeSenha";
+import EditarDados from "../(screens)/EditarDados";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +18,8 @@ export function AppStack() {
             <Stack.Screen name="Rankings" component={Rankings} options={{headerShown: false}}/>
             <Stack.Screen name="Relatorios" component={Relatorios} options={{headerShown: false}}/>
             <Stack.Screen name="Funcionarios" component={Funcionarios} options={{headerShown: false}}/>
+            <Stack.Screen name="TrocaDeSenha" component={TrocaDeSenha} options={{headerShown: false}}/>
+            <Stack.Screen name="EditarDados" component={EditarDados} options={{headerShown: false}}/>
         </Stack.Navigator>
     )
 }

@@ -5,7 +5,7 @@ import { useNavigation } from 'expo-router';
 import { NavigationProp } from '@react-navigation/native'; 
 import { RootStackParamList } from '../navigation/types';
 
-const LockButton: React.FC = () => {
+const BackToProfileButton: React.FC = () => {
     const { width } = useWindowDimensions();
     const isLargeScreen = width >= 768;
     const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -16,7 +16,7 @@ const LockButton: React.FC = () => {
     const animateButton = (expand: boolean) => {
         if (expand) {
             Animated.timing(animatedWidth, {
-                toValue: isLargeScreen ? 200 : 100,
+                toValue: isLargeScreen ? 210 : 100,
                 duration: 300,
                 useNativeDriver: false,
             }).start(() => {
@@ -43,7 +43,7 @@ const LockButton: React.FC = () => {
 
     return (
         <Pressable
-            onPress={() => {navigation.navigate('TrocaDeSenha')}}
+            onPress={() => { navigation.navigate('Perfil') }} // Navega para o perfil
             onHoverIn={() => {
                 if (isLargeScreen) {
                     setIsHovered(true);
@@ -56,19 +56,19 @@ const LockButton: React.FC = () => {
                     animateButton(false);
                 }
             }}
-            style={styles.pressableContainer}
+            style={[styles.pressableContainer, {top: width >=768 ? 80:60}]}
         >
-            <Animated.View style={[styles.button, { width: isLargeScreen ? animatedWidth : 150 }]}>
+            <Animated.View style={[styles.button, { width: isLargeScreen ? animatedWidth : 160 }]}>
                 <View style={styles.iconContainer}>
                     <Svg width={isLargeScreen ? 24 : 16} height={isLargeScreen ? 24 : 16} viewBox="0 0 24 24" fill="none">
                         <Path 
-                            d="M12 2a4 4 0 00-4 4v4H7a1 1 0 00-1 1v10a1 1 0 001 1h10a1 1 0 001-1V11a1 1 0 00-1-1h-1V6a4 4 0 00-4-4zm-2 4a2 2 0 014 0v4h-4V6zm5 10a1 1 0 11-2 0 1 1 0 012 0zm-3 1v2h2v-2h-2z"
+                            d="M19 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H19v-2z" 
                             fill="#fff"
                         />
                     </Svg>
                 </View>
                 <Animated.Text style={[styles.buttonText, { fontSize: isLargeScreen ? 16 : 10, opacity: isLargeScreen ? animatedOpacity : 1 }]}>
-                    Troca de senha
+                    Voltar para o perfil
                 </Animated.Text>
             </Animated.View>
         </Pressable>
@@ -78,8 +78,7 @@ const LockButton: React.FC = () => {
 const styles = StyleSheet.create({
     pressableContainer: {
         position: 'absolute',
-        bottom: 5,
-        right: 20,
+        left: 20,
         borderRadius: 25,
         overflow: 'hidden',
     },
@@ -107,4 +106,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default LockButton;
+export default BackToProfileButton;

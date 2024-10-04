@@ -5,6 +5,7 @@ import { AuthContext } from '@/contexts/Auth';
 import BarInferior from '@/components/bars/BarInferior';
 import UserProfile from '@/components/perfil/PerfilComp';
 import LockButton from '@/components/perfil/BotaoAnimate';
+import DadosButton from '@/components/perfil/BotaoAnimateDados';
 
 export default function Perfil() {
   const [email, setEmail] = useState<string | null>(null);
@@ -21,7 +22,11 @@ export default function Perfil() {
   return (
     <View style={styles.container}>
       <View style={{position: 'absolute', top:0}}><BarSuperior /></View>
-      <View style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}><UserProfile /><LockButton /></View>
+      <View style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <UserProfile />
+        <LockButton />
+        <DadosButton />
+      </View>
       <View style={{position: 'absolute', bottom:0}}><BarInferior /></View>
     </View>
   );
