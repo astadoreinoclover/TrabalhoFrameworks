@@ -7,6 +7,8 @@ import Relatorios from "../(screens)/Relatorios";
 import Funcionarios from "../(screens)/Funcionarios";
 import TrocaDeSenha from "../(screens)/TrocaDeSenha";
 import EditarDados from "../(screens)/EditarDados";
+import RemoverFuncionario from "../(screens)/RemoverFuncionario";
+import AddFuncionario from "../(screens)/AdicionarFuncionario";
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +22,8 @@ export function AppStack() {
             <Stack.Screen name="Funcionarios" component={Funcionarios} options={{headerShown: false}}/>
             <Stack.Screen name="TrocaDeSenha" component={TrocaDeSenha} options={{headerShown: false}}/>
             <Stack.Screen name="EditarDados" component={EditarDados} options={{headerShown: false}}/>
+            <Stack.Screen name="RemoverFuncionario" component={RemoverFuncionario} options={{headerShown: false}}/>
+            <Stack.Screen name="AddFuncionario" component={AddFuncionario} options={{headerShown: false}}/>
         </Stack.Navigator>
     )
 }

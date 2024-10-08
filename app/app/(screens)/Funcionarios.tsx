@@ -1,145 +1,31 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Alert, TextInput, TouchableOpacity, ScrollView, useWindowDimensions } from 'react-native';
+import { View, useWindowDimensions, StyleSheet, Text } from 'react-native';
 import BarSuperior from '@/components/bars/BarSuperior';
 import { AuthContext } from '@/contexts/Auth';
 import BarInferior from '@/components/bars/BarInferior';
-import { getRanking, updateEmployee, deleteEmployee } from '@/services/RankingService';
-
-
-type Employee = {
-  id: number;
-  name: string;
-  department: string;
-  points: number;
-};
+import FilterTabela from '@/components/funcionarios/FilterTabela';
+import TabelaFuncionarios from '@/components/funcionarios/TabelaFuncionarios';
+import BotaoAddFunc from '@/components/funcionarios/BotaoAddFunc';
+import BotaoRemoverFuncionario from '@/components/funcionarios/BotaoRemoverFuncionario';
 
 export default function Funcionarios() {
-  const [email, setEmail] = useState<string | null>(null);
-  const [name, setName] = useState<string | null>(null);
-  const [employees, setEmployees] = useState<Employee[]>([]);
-  const [editingEmployee, setEditingEmployee] = useState<Employee | null>(null);
-  const [editedName, setEditedName] = useState<string>('');
-  const [editedDepartment, setEditedDepartment] = useState<string>('');
-  const [editedPoints, setEditedPoints] = useState<number | null>(null);
-  const { width } = useWindowDimensions();
-  
-  const authContext = useContext(AuthContext);
-
-  useEffect(() => {
-    setEmail(authContext.authData?.email || null);
-    setName(authContext.authData?.name || null);
-
-    // Fetch employees from ranking
-    const fetchRanking = async () => {
-      try {
-        const data = await getRanking('Geral', 'Mês');
-        setEmployees(data);
-      } catch (error) {
-        console.error('Erro ao buscar ranking:', error);
-      }
-    };
-
-    fetchRanking();
-  }, [authContext.authData]);
-
-  const handleEdit = (employee: Employee) => {
-    setEditingEmployee(employee);
-    setEditedName(employee.name);
-    setEditedDepartment(employee.department);
-    setEditedPoints(employee.points);
-  };
-
-  const handleSave = async () => {
-    if (editingEmployee && editedName && editedDepartment && editedPoints !== null) {
-      const updatedEmployee = { ...editingEmployee, name: editedName, department: editedDepartment, points: editedPoints };
-      try {
-        await updateEmployee(updatedEmployee);
-        setEmployees(employees.map(emp => emp.id === editingEmployee.id ? updatedEmployee : emp));
-        setEditingEmployee(null);
-      } catch (error) {
-        console.error('Erro ao atualizar funcionário:', error);
-      }
-    }
-  };
-
-  const handleDelete = async (id: number) => {
-    Alert.alert(
-      'Confirmação',
-      'Você tem certeza que deseja excluir este funcionário?',
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        {
-          text: 'Excluir',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await deleteEmployee(id);
-              setEmployees(employees.filter(emp => emp.id !== id));
-            } catch (error) {
-              console.error('Erro ao excluir funcionário:', error);
-            }
-          },
-        },
-      ],
-    );
-  };
-
-  const renderEmployee = ({ item }: { item: Employee }) => (
-    <View style={styles.employeeRow}>
-      <Text style={[styles.employeeText, {fontSize: width >= 768?14:10}]}>{item.name}</Text>
-      <Text style={[styles.employeeText, {fontSize: width >= 768?14:10}]}>{item.department}</Text>
-      <Text style={[styles.employeeText, {fontSize: width >= 768?14:10}]}>{item.points}</Text>
-      <TouchableOpacity style={styles.editButton} onPress={() => handleEdit(item)}>
-        <Text style={styles.buttonText}>Editar</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(item.id)}>
-        <Text style={styles.buttonText}>Excluir</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  const { height, width } = useWindowDimensions()
 
   return (
     <View style={styles.container}>
-      <View style={{ position: 'absolute', top: 0 }}><BarSuperior /></View>
-        <ScrollView style={{marginTop:50, width: width >=768?width*0.8:width*0.95}}>
-          <FlatList
-          data={employees}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={renderEmployee}
-          style={styles.list}
-        />
-
-        {editingEmployee && (
-          <View style={styles.editContainer}>
-            <Text style={styles.editTitle}>Editando Funcionário</Text>
-            <TextInput
-              style={styles.input}
-              value={editedName}
-              onChangeText={setEditedName}
-              placeholder="Nome"
-            />
-            <TextInput
-              style={styles.input}
-              value={editedDepartment}
-              onChangeText={setEditedDepartment}
-              placeholder="Departamento"
-            />
-            <TextInput
-              style={styles.input}
-              value={editedPoints ? editedPoints.toString() : ''}
-              onChangeText={(text) => setEditedPoints(Number(text))}
-              placeholder="Pontos"
-              keyboardType="numeric"
-            />
-            <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-              <Text style={styles.buttonText}>Salvar</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      </ScrollView>
-      
-
-      <View style={{ position: 'absolute', bottom: 0 }}><BarInferior /></View>
+      <View style={{position: 'absolute', top:0}}><BarSuperior /></View>
+      <View style={{display: 'flex',flexDirection: width >=768 ? 'row' : 'column', height: width >=768 ? height*0.6: height*0.8}}>
+        <View style={{width: width*0.5, right:0, position: 'relative', alignItems: 'center'}}>
+          <Text style={[styles.title,{fontSize: width>=768 ?32:22}]}>Funcionarios</Text>
+          <FilterTabela />
+        </View>
+        <View style={{width: width*0.5, left:0, position: 'relative', alignItems: 'center'}}><TabelaFuncionarios /></View>
+      </View>
+      <View style={{position: 'absolute', bottom:width>=768?120:50, left:width>=768?20:0, width: width>=768?'auto':'100%', display: 'flex', flexDirection: width>=768?'column':'row', justifyContent:'space-around'}}>
+            <BotaoAddFunc />
+            <BotaoRemoverFuncionario />
+      </View>
+      <View style={{position: 'absolute', bottom:0}}><BarInferior /></View>
     </View>
   );
 }
@@ -149,88 +35,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f7f7f7',
-    paddingTop: 20,
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 10,
-  },
-  subTitle: {
-    fontSize: 16,
-    color: '#888',
-    marginBottom: 10,
-  },
-  list: {
-    width: '100%',
-  },
-  employeeRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 15,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    marginVertical: 5,
-    marginHorizontal: 10,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
-  },
-  employeeText: {
-    fontSize: 16,
-    color: '#333',
-    flex: 1,
-  },
-  editButton: {
-    backgroundColor: '#00A699',
-    paddingVertical: 8,
-    paddingHorizontal: 5,
-    borderRadius: 5,
-    marginRight: 5,
-  },
-  deleteButton: {
-    backgroundColor: '#FF5A5F',
-    paddingVertical: 8,
-    paddingHorizontal: 5,
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  editContainer: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 20,
-    marginTop: 20,
-    width: '90%',
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
-  },
-  editTitle: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginBottom: 15,
-    color: '#333',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-    fontSize: 16,
-    backgroundColor: '#f9f9f9',
-  },
-  saveButton: {
-    backgroundColor: '#00A699',
-    paddingVertical: 12,
-    borderRadius: 5,
-    alignItems: 'center',
+    color: '#2c3e50',
+    fontWeight: 'bold'
   },
 });

@@ -6,4 +6,6 @@ export type RootStackParamList = {
     Funcionarios: undefined;
     TrocaDeSenha: undefined;
     EditarDados: undefined;
+    RemoverFuncionario: undefined;
+    AddFuncionario: undefined;
 };
