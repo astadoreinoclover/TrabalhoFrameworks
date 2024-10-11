@@ -65,7 +65,7 @@ const FuncionarioProfile: React.FC = () => {
 
     return (
         <ScrollView>
-            <View style={{ height: height * 0.8, width: width * 0.95, paddingBottom: 20 }}>
+            <View style={{ height: height * 0.75, width: width * 0.95, paddingBottom: 20 }}>
                 <View style={[styles.headerContainer, { flexDirection: width >=768?'row': 'column', width:width*0.9}]}>
                     <View style={styles.profileImageContainer}>
                         <svg

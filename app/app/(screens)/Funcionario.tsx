@@ -8,7 +8,8 @@ export default function Funcionario() {
     return (
         <View style={styles.container}>
             <View style={{position: 'absolute', top:0}}><BarSuperior /></View>
-            <View style={{position: 'absolute', bottom:20}}>
+            <View style={{position: 'absolute', bottom:10}}>
+                <Text style={styles.title}>Perfil do Funcionario</Text>
                 <FuncionarioProfile />
             </View>
             <VoltarFuncionarios />
@@ -24,5 +25,8 @@ const styles = StyleSheet.create({
     },
     title: {
       fontSize: 24,
+      marginHorizontal: 'auto',
+      color: '#2C3E50',
+      fontWeight: 700
     },
 });
