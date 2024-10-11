@@ -8,4 +8,5 @@ export type RootStackParamList = {
     EditarDados: undefined;
     RemoverFuncionario: undefined;
     AddFuncionario: undefined;
+    Funcionario: { itemName: string, itemDepartament: string, itemId: number };
 };

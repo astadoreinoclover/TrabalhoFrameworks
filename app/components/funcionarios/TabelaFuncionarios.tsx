@@ -1,11 +1,13 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, FlatList, useWindowDimensions, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, FlatList, useWindowDimensions, ScrollView, TouchableOpacity } from 'react-native';
 import { AuthContext } from '@/contexts/Auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ScrollViewIndicator from 'react-native-scroll-indicator';
 import { getFuncionarios } from '@/services/FuncionariosService';
-import { useFocusEffect } from '@react-navigation/native';
-import { FuncionariosContext } from '@/contexts/FuncionariosContext'; // Adicione isso
+import { FuncionariosContext } from '@/contexts/FuncionariosContext';
+import { NavigationProp, useNavigation } from '@react-navigation/native'; 
+import { RootStackParamList } from '../navigation/types';
+
 
 type Funcionarios = {
   id: number;
@@ -23,6 +25,7 @@ export default function TabelaFuncionarios() {
   const [funcionarios, setFuncionarios] = useState<Funcionarios[]>([]);
   const { filterFunc } = useContext(FuncionariosContext);
   const authContext = useContext(AuthContext);
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   useEffect(() => {
     setEmail(authContext.authData?.email || null);
@@ -57,7 +60,12 @@ export default function TabelaFuncionarios() {
 
   const renderFuncionarios = ({ item }: { item: Funcionarios }) => (
     <View style={styles.row}>
-      <Text style={styles.cell}>{item.name}</Text>
+       <TouchableOpacity 
+        style={styles.cell} 
+        onPress={() => navigation.navigate('Funcionario', { itemName: item.name, itemDepartament: item.department, itemId: item.id })}
+      >
+        <Text>{item.name}</Text>
+      </TouchableOpacity>
       <Text style={styles.cell}>{item.entregue}</Text>
       <Text style={styles.cell}>{item.emdesenvolvimento}</Text>
       <Text style={styles.cell}>{item.naoentregue}</Text>
