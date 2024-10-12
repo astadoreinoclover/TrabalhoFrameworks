@@ -11,7 +11,8 @@ async function login(email: string, senha: string):Promise<AuthData> {
                     name: 'Renato',
                     numero: '(53) 991000000',
                     cpf: '000.000.000-00',
-                    dataNascimento: '24/12/2001'
+                    dataNascimento: '24/12/2001',
+                    departament: 'Financeiro'
                 })
             } else {
                 reject(new Error('Credenciais invalidas'))

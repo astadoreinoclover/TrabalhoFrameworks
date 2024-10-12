@@ -11,7 +11,7 @@ import { RankingContext } from "./RankingContext";
     numero: string;
     cpf: string;
     dataNascimento: string;
-
+    departament: string;
 }
 
 interface AuthContextData {

@@ -5,31 +5,8 @@ import ItemPerfilComponent from './ItemComponenteFuncionario';
 import { useRoute } from '@react-navigation/native';
 import { getFuncionario } from '@/services/FuncionarioService';
 import HabilidadeCard from './HabilidadeCard';
-
-type RouteParams = {
-    itemName: string;
-    itemDepartament: string;
-    itemId: number;
-};
-
-type Habilidade = {
-    nome: string;
-    nivel: number;
-};
-
-type Funcionario = {
-    habilidades?: Habilidade[];
-    id: number;
-    name: string;
-    department: string;
-    funcao: string;
-    numero: string;
-    dataNasc: string;
-    email: string;
-    xp: number;
-    xpNescessario: number;
-    nivel: number;
-};
+import Nivel from './Nivel';
+import { RouteParams, Funcionario } from './Types';
 
 const FuncionarioProfile: React.FC = () => {
     const { width, height } = useWindowDimensions();
@@ -40,6 +17,9 @@ const FuncionarioProfile: React.FC = () => {
 
     const route = useRoute();
     const { itemName, itemDepartament, itemId } = route.params as RouteParams;
+    const dataFormatada = funcionario?.dataNasc
+    ? new Date(funcionario.dataNasc).toLocaleDateString('pt-BR')
+    : 'Data não disponível';
 
     useEffect(() => {
         const fetchFuncionario = async () => {
@@ -66,31 +46,7 @@ const FuncionarioProfile: React.FC = () => {
     return (
         <ScrollView>
             <View style={{ height: height * 0.75, width: width * 0.95, paddingBottom: 20 }}>
-                <View style={[styles.headerContainer, { flexDirection: width >=768?'row': 'column', width:width*0.9}]}>
-                    <View style={styles.profileImageContainer}>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            color={'#2C3E50'}
-                            width={125}
-                            height={125}
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            className="size-6"
-                        >
-                            <path
-                                fillRule="evenodd"
-                                d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
-                                clipRule="evenodd"
-                            />
-                        </svg>
-                    </View>
-                    <View style={[styles.progressBarContainer, {width:width>=768?width*0.6:width*0.7}]}>
-                        <View style={styles.progressBar}>
-                            <View style={[styles.progress, { width: `${(funcionario.xp / funcionario.xpNescessario) * 100}%` }]} />    
-                        </View>
-                        <Text style={{marginLeft: 20}}>{funcionario.xp}/{funcionario.xpNescessario}</Text>
-                    </View>
-                </View>
+                <Nivel funcionario={funcionario}/>
                 <View style={[styles.headerContainer, { flexDirection: width >=768?'row': 'column', width:width*0.9, justifyContent:width>=768?'space-around':'center', alignItems:width>=768?'baseline':'center'}]}>
                     <View style={{flexDirection: width >=768?'row': 'column'}}>
                        <Text style={{ fontWeight: 'bold', color: '#2C3E50', fontSize: 20, marginRight:10 }}>Habilidades:</Text>
@@ -102,13 +58,12 @@ const FuncionarioProfile: React.FC = () => {
                             />
                         ))} 
                     </View>
-                    
                     <Text style={{fontWeight: 'bold', color: '#2C3E50', fontSize:20}}>Nivel: {funcionario.nivel}</Text>
                 </View>
                 <View style={[styles.container, { flexDirection: width >= 768 ? 'row' : 'column' }]}>
                     <View style={[styles.areaItem, { height: heigthCards, width: widthCards }]}>
                         <ItemPerfilComponent title="Nome Completo" content={funcionario.name} />
-                        <ItemPerfilComponent title="Data de Nascimento" content={funcionario.dataNasc} />
+                        <ItemPerfilComponent title="Data de Nascimento" content={dataFormatada} />
                     </View>
                     <View style={[styles.areaItem, { height: heigthCards, width: widthCards }]}>
                         <ItemPerfilComponent title="Email" content={funcionario.email} />
@@ -133,28 +88,9 @@ const styles = StyleSheet.create({
         display: 'flex',
         marginBottom: 20,
     },
-    profileImageContainer: {
-        marginHorizontal: 'auto'
-    },
-    progressBarContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginHorizontal: 'auto'
-    },
     areaItem: {
         paddingTop: 20,
         margin: 'auto',
-    },
-    progressBar: {
-        height: 10,
-        backgroundColor: '#fff',
-        borderRadius: 5,
-        overflow: 'hidden',
-        width: '80%',
-    },
-    progress: {
-        height: '100%',
-        backgroundColor: '#8A79AF',
     },
 });
 
