@@ -1,10 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet, useWindowDimensions,Text } from 'react-native';
 import BarSuperior from '@/components/bars/BarSuperior';
 import { AuthContext } from '@/contexts/Auth';
 import BarInferior from '@/components/bars/BarInferior';
+import Ranking from '@/components/rankings/Ranking';
+import RelatorioFilter from '@/components/relatorios/RelatorioFilter';
+import RelatorioGrafico from '@/components/relatorios/RelatorioGrafico';
 
-export default function Relatorios() {
+export default function Rankings() {
+  const { width, height } = useWindowDimensions();
   const [email, setEmail] = useState<string | null>(null);
   const [name, setName] = useState<string | null>(null);
   const authContext = useContext(AuthContext);
@@ -14,13 +18,18 @@ export default function Relatorios() {
     setName(authContext.authData?.name || null)
   }, [authContext.authData]);
   
+  
   console.log(authContext.authData?.token);
   return (
     <View style={styles.container}>
       <View style={{position: 'absolute', top:0}}><BarSuperior /></View>
-      <Text style={styles.title}>Bem-vindo à Tela Relatorios!</Text>
-      <Text style={styles.title}>Seu e-mail é: {email ? email : 'Não disponível'}</Text>
-      <Text style={styles.title}>Seu nome é: {name ? name : 'Não disponível'}</Text>
+      <View style={{display: 'flex',flexDirection: width >=768 ? 'row' : 'column', height: width >=768 ? height*0.6: height*0.8}}>
+        <View style={{width: width*0.5, right:0, position: 'relative', alignItems: 'center'}}>
+          <Text style={[styles.title,{fontSize: width>=768 ?25:18}]}>Relatorio</Text>
+          <RelatorioGrafico />
+        </View>
+        <View style={{width: width*0.5, left:0, position: 'relative', alignItems: 'center'}}><RelatorioFilter /></View>
+      </View>
       <View style={{position: 'absolute', bottom:0}}><BarInferior /></View>
     </View>
   );
@@ -33,6 +42,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 24,
+    color: '#2c3e50',
+    fontWeight: 'bold'
   },
 });
