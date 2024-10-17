@@ -20,6 +20,7 @@ const InputWithIcon: React.FC<InputWithIconProps> = ({ label, IconComponent, val
                 autoCapitalize="none"
                 value={value} 
                 onChangeText={setValue}
+                placeholder={value}
             />
         </View>
     );

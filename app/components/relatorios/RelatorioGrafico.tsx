@@ -102,7 +102,7 @@ const Chart = () => {
             {chartData.map((item, index) => (
               <View key={index} style={styles.legendItem}>
                 <View style={[styles.legendColor, { backgroundColor: item.color }]} />
-                <Text style={styles.legendText}>{item.name}</Text>
+                <Text style={styles.legendText}>{item.name}: {item.population}</Text>
               </View>
             ))}
           </View>

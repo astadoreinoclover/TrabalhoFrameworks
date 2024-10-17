@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, useWindowDimensions, StyleSheet, Text } from 'react-native';
 import BarSuperior from '@/components/bars/BarSuperior';
-import { AuthContext } from '@/contexts/Auth';
 import BarInferior from '@/components/bars/BarInferior';
 import FilterTabela from '@/components/funcionarios/FilterTabela';
 import TabelaFuncionarios from '@/components/funcionarios/TabelaFuncionarios';

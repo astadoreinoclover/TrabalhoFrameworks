@@ -3,7 +3,6 @@ import { View, StyleSheet, useWindowDimensions,Text } from 'react-native';
 import BarSuperior from '@/components/bars/BarSuperior';
 import { AuthContext } from '@/contexts/Auth';
 import BarInferior from '@/components/bars/BarInferior';
-import Ranking from '@/components/rankings/Ranking';
 import RelatorioFilter from '@/components/relatorios/RelatorioFilter';
 import RelatorioGrafico from '@/components/relatorios/RelatorioGrafico';
 

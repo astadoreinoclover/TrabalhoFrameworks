@@ -5,6 +5,8 @@ import ProgressBar from './ProgressBar';
 import { useNavigation } from 'expo-router';
 import { NavigationProp } from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/types';
+import InputCPF from './CpfInput';
+import InputDate from './DataInput';
 
 
 export default function FormAddFunc() {
@@ -27,6 +29,10 @@ export default function FormAddFunc() {
     const [cpf, setCpf] = useState('');
 
     const handleSubmit = () => {
+        if (cpf.length < 13) {
+            alert('CPF invalido');
+            return;
+        }
         if (!nome || !sobrenome || !departamento || !funcao || !email || !phone || !neighborhood || !street || !complement || !houseNumber || !dataNasc || !cpf) {
             alert('Por favor, preencha todos os campos.');
             return;
@@ -53,8 +59,8 @@ export default function FormAddFunc() {
                     <View style={styles.containerInputs}>
                         <InputAddFunc label="Nome" value={nome} setValue={setNome} />
                         <InputAddFunc label="Sobrenome" value={sobrenome} setValue={setSobrenome} />
-                        <InputAddFunc label="Data Nasc." value={dataNasc} setValue={setDataNasc} />
-                        <InputAddFunc label="CPF" value={cpf} setValue={setCpf} />
+                        <InputDate label="Data Nasc." value={dataNasc} setValue={setDataNasc} />
+                        <InputCPF label="CPF" value={cpf} setValue={setCpf} />
                     </View>
                 );
             case 2:
