@@ -1,16 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, useWindowDimensions } from 'react-native';
 import BarSuperior from '@/components/bars/BarSuperior';
 import { AuthContext } from '@/contexts/Auth';
 import BarInferior from '@/components/bars/BarInferior';
+import FilterTasks from '@/components/tasks/FilterTasks';
+import { TaskContext } from '@/contexts/TaskContaxt';
+import Task from '@/components/tasks/Task';
 
 export default function Tasks() {
+  const { width, height } = useWindowDimensions();
   const [email, setEmail] = useState<string | null>(null);
   const [name, setName] = useState<string | null>(null);
   const authContext = useContext(AuthContext);
+  const {filterTask} = useContext(TaskContext)
 
   useEffect(() => {
-    // Atribuindo o email assim que o componente renderiza ou quando authData muda
     setEmail(authContext.authData?.email || null);
     setName(authContext.authData?.name || null)
   }, [authContext.authData]);
@@ -19,9 +23,11 @@ export default function Tasks() {
   return (
     <View style={styles.container}>
       <View style={{position: 'absolute', top:0}}><BarSuperior /></View>
-      <Text style={styles.title}>Bem-vindo à Tela de Task!</Text>
-      <Text style={styles.title}>Seu e-mail é: {email ? email : 'Não disponível'}</Text>
-      <Text style={styles.title}>Seu nome é: {name ? name : 'Não disponível'}</Text>
+      <Text style={styles.title}>Tasks</Text>
+      <View style={[styles.area,{width: width * 0.9, height: height *0.6}]}>
+        <FilterTasks />
+        <Task />
+      </View>
       <View style={{position: 'absolute', bottom:0}}><BarInferior /></View>
     </View>
   );
@@ -35,6 +41,15 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
+    marginHorizontal: 'auto',
+    fontWeight: 600,
+    marginVertical: 10,
+    color: '#2c3e50'
   },
+  area: {
+    backgroundColor: '#fff',
+    borderRadius:20,
+    shadowColor: '#ccc'
+  }
 });
 

@@ -5,23 +5,18 @@ interface InputAddFuncProps {
     label: string;
     value: string;
     setValue: (value: string) => void;
-    onChange?: (value: string) => void; // Tornar onChange opcional
+    onChange?: (value: string) => void;
 }
 
 const InputCPF: React.FC<InputAddFuncProps> = ({ label, value, setValue, onChange }) => {
     const { width } = useWindowDimensions();
 
-    // Função para lidar com a mudança no valor do input
     const handleChange = (text: string) => {
-        // Remove todos os caracteres não numéricos
         const onlyNumbers = text.replace(/\D/g, '');
     
-        // Limita a 11 caracteres
         if (onlyNumbers.length <= 11) {
-            // Formata o CPF
             let formattedCpf = onlyNumbers;
     
-            // Formatação do CPF (XXX.XXX.XXX-XX)
             if (onlyNumbers.length > 9) {
                 formattedCpf = `${onlyNumbers.slice(0, 3)}.${onlyNumbers.slice(3, 6)}.${onlyNumbers.slice(6, 9)}-${onlyNumbers.slice(9, 11)}`;
             } else if (onlyNumbers.length > 6) {
@@ -32,7 +27,6 @@ const InputCPF: React.FC<InputAddFuncProps> = ({ label, value, setValue, onChang
                 formattedCpf = onlyNumbers.slice(0, 3);
             }
     
-            // Atualiza o estado e chama a função onChange, se fornecida
             setValue(formattedCpf);
             if (onChange) {
                 onChange(formattedCpf);
@@ -50,6 +44,7 @@ const InputCPF: React.FC<InputAddFuncProps> = ({ label, value, setValue, onChang
                 autoCapitalize="none"
                 value={value} 
                 onChangeText={handleChange}
+                placeholder='xxx.xxx.xxx-xx'
             />
         </View>
     );

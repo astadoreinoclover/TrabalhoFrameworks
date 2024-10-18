@@ -4,6 +4,7 @@ import { AuthProvider } from '@/contexts/Auth';
 import { RankingProvider } from '@/contexts/RankingContext';
 import { FuncionariosProvider } from '@/contexts/FuncionariosContext';
 import { RelatorioProvider } from '@/contexts/RelatorioContext';
+import { TaskProvider } from '@/contexts/TaskContaxt';
 
 export default function App() {
   return (
@@ -11,7 +12,9 @@ export default function App() {
       <RankingProvider>
         <FuncionariosProvider>
           <RelatorioProvider>
-            <Router />
+            <TaskProvider>
+              <Router />
+            </TaskProvider>
           </RelatorioProvider>
         </FuncionariosProvider>
       </RankingProvider>

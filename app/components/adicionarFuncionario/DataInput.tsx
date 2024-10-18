@@ -43,6 +43,7 @@ const InputDate: React.FC<InputDateProps> = ({ label, value, setValue, onChange 
                 autoCapitalize="none"
                 value={value} 
                 onChangeText={handleChange}
+                placeholder='xx/xx/xxxx'
             />
         </View>
     );

@@ -7,6 +7,7 @@ import { NavigationProp } from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/types';
 import InputCPF from './CpfInput';
 import InputDate from './DataInput';
+import InputPhone from './PhoneInput';
 
 
 export default function FormAddFunc() {
@@ -28,15 +29,29 @@ export default function FormAddFunc() {
     const [dataNasc, setDataNasc] = useState('');
     const [cpf, setCpf] = useState('');
 
+    const validateEmail = (email: string) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
     const handleSubmit = () => {
         if (cpf.length < 13) {
             alert('CPF invalido');
             return;
         }
+
+        if (!validateEmail(email)) {
+            alert('Email invalido');
+            return;
+        }
+
         if (!nome || !sobrenome || !departamento || !funcao || !email || !phone || !neighborhood || !street || !complement || !houseNumber || !dataNasc || !cpf) {
             alert('Por favor, preencha todos os campos.');
             return;
         }
+        console.log(`Nome: ${nome} ${sobrenome}`)
+        console.log(`CPF: ${cpf}`)
+        console.log(`Data de Nascimento: ${dataNasc}`)
         navigation.navigate('Funcionarios')
     };
 
@@ -67,7 +82,7 @@ export default function FormAddFunc() {
                 return (
                     <View style={styles.containerInputs}>
                         <InputAddFunc label="Email" value={email} setValue={setEmail} />
-                        <InputAddFunc label="Telefone" value={phone} setValue={setPhone} />
+                        <InputPhone label="Telefone" value={phone} setValue={setPhone} />
                         <InputAddFunc label="Departamento" value={departamento} setValue={setDepartamento} />
                         <InputAddFunc label="Função" value={funcao} setValue={setFuncao} />
                     </View>
