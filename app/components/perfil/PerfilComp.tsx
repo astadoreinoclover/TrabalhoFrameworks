@@ -13,6 +13,9 @@ const UserProfile: React.FC = () => {
     const [dataNas, setDataNas] = useState<string | null>(null)
     const [cpf, setCpf] = useState<string | null>(null)
     const [numero, setNumero] = useState<string | null>(null)
+    const [departament, setDepartament] = useState<string | null>(null)
+    const [funcao, setFuncao] = useState<string | null>(null)
+    const [empresa, setEmpresa] = useState<string | null>(null)
 
     useEffect(() => {
         setEmail(authContext.authData?.email || null);
@@ -20,6 +23,9 @@ const UserProfile: React.FC = () => {
         setDataNas(authContext.authData?.dataNascimento || null)
         setCpf(authContext.authData?.cpf || null)
         setNumero(authContext.authData?.numero || null)
+        setDepartament(authContext.authData?.departament || null)
+        setFuncao(authContext.authData?.funcao || null)
+        setEmpresa(authContext.authData?.empresa || null)
     }, [authContext.authData]);
 
     return (
@@ -32,17 +38,17 @@ const UserProfile: React.FC = () => {
                 </View>
                 <View style={[styles.areaItem, {height: heigthCards, width: widthCards}]}>
                     <ItemComponent title="Nome Completo" content={name} />
+                    <ItemComponent title="CPF" content={cpf} />
                     <ItemComponent title="Email" content={email} />
                     <ItemComponent title="Número" content={numero} />
-                    <ItemComponent title="------------" content={'---------'} />
                 </View>
                 <View style={[styles.areaItem, {height: heigthCards, width: widthCards}]}>
                     <ItemComponent title="Data de Nascimento" content={dataNas} />
-                    <ItemComponent title="------------" content={'---------'} />
-                    <ItemComponent title="------------" content={'---------'} />
+                    <ItemComponent title="Departamento" content={departament} />
+                    <ItemComponent title="Função" content={funcao} />
                 </View>
                 <View style={[styles.areaItem, {height: heigthCards, width: widthCards}]}>
-                    <ItemComponent title="CPF" content={cpf} />
+                    <ItemComponent title="Empresa" content={empresa} />
                     <ItemComponent title="------------" content={'---------'} />
                     <ItemComponent title="------------" content={'---------'} />
                 </View>

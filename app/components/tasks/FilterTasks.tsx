@@ -12,7 +12,7 @@ export default function FilterTasks() {
   }, [selectedstatus, setFilterTask]);
 
   return (
-    <View style={[styles.container, {width: width*0.9}]}>
+    <View style={[styles.container, {width: width >=768? width*0.6:width*0.9}]}>
         <TouchableOpacity style={styles.button} onPress={()=>{setSelectedstatus('Não Entregue')}}>
             <Text style={[styles.text, {fontSize: width>=768? 18:12, color: selectedstatus == 'Não Entregue'?'#fff':'#999'}]}>Não Entregue</Text>
         </TouchableOpacity>

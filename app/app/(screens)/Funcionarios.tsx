@@ -6,24 +6,37 @@ import FilterTabela from '@/components/funcionarios/FilterTabela';
 import TabelaFuncionarios from '@/components/funcionarios/TabelaFuncionarios';
 import BotaoAddFunc from '@/components/funcionarios/BotaoAddFunc';
 import BotaoRemoverFuncionario from '@/components/funcionarios/BotaoRemoverFuncionario';
+import { AuthContext } from '@/contexts/Auth';
 
 export default function Funcionarios() {
   const { height, width } = useWindowDimensions()
+  const authContext = useContext(AuthContext);
 
   return (
     <View style={styles.container}>
       <View style={{position: 'absolute', top:0}}><BarSuperior /></View>
-      <View style={{display: 'flex',flexDirection: width >=768 ? 'row' : 'column', height: width >=768 ? height*0.6: height*0.8}}>
-        <View style={{width: width*0.5, right:0, position: 'relative', alignItems: 'center'}}>
-          <Text style={[styles.title,{fontSize: width>=768 ?32:22}]}>Funcionarios</Text>
-          <FilterTabela />
+      {(authContext.authData?.rule === 'Admin' || authContext.authData?.rule === 'Gerente') && (
+        <>
+        <View style={{display: 'flex',flexDirection: width >=768 ? 'row' : 'column', height: width >=768 ? height*0.6: height*0.8}}>
+          <View style={{width: width*0.5, right:0, position: 'relative', alignItems: 'center'}}>
+            <Text style={[styles.title,{fontSize: width>=768 ?32:22}]}>Funcionarios</Text>
+            <FilterTabela />
+          </View>
+          <View style={{width: width*0.5, left:0, position: 'relative', alignItems: 'center'}}><TabelaFuncionarios /></View>
         </View>
-        <View style={{width: width*0.5, left:0, position: 'relative', alignItems: 'center'}}><TabelaFuncionarios /></View>
-      </View>
-      <View style={{position: 'absolute', bottom:width>=768?120:50, left:width>=768?20:0, width: width>=768?'auto':'100%', display: 'flex', flexDirection: width>=768?'column':'row', justifyContent:'space-around'}}>
+        <View style={{position: 'absolute', bottom:width>=768?120:50, left:width>=768?20:0, width: width>=768?'auto':'100%', display: 'flex', flexDirection: width>=768?'column':'row', justifyContent:'space-around'}}>
             <BotaoAddFunc />
             <BotaoRemoverFuncionario />
-      </View>
+        </View>
+        </>
+      )}
+      {authContext.authData?.rule === 'Funcionario' && (
+        <>
+          <View style={{display: 'flex', flexDirection: 'column', height: height * 0.8, alignItems: 'center'}}>
+            <Text style={[styles.title, {fontSize: width >= 768 ? 32 : 22}]}>Tela em Desenvolvimento</Text>
+          </View>
+        </>
+      )}
       <View style={{position: 'absolute', bottom:0}}><BarInferior /></View>
     </View>
   );

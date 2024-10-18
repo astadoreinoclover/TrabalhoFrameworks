@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, FlatList, useWindowDimensions, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, FlatList, useWindowDimensions, ScrollView, TouchableOpacity } from 'react-native';
 import { AuthContext } from '@/contexts/Auth';
 import ScrollViewIndicator from 'react-native-scroll-indicator';
 import { getTasks } from '@/services/TaskService';
@@ -32,39 +32,61 @@ export default function Ranking() {
   useEffect(() => {
     const fetchRanking = async () => {
       try {
-        const data = await getTasks( authContext.authData?.departament || 'Geral', filterTask);
+        // Verifica se o valor de authContext.authData está correto antes de chamar getTasks
+        const department = authContext.authData?.departament || 'Geral';
+        const empresa = authContext.authData?.empresa || '';
+        const status = filterTask;
+  
+        console.log('Chamando getTasks com:', { department, status, empresa }); // Debug para verificar os parâmetros
+  
+        const data = await getTasks(department, status, empresa);
         console.log('Dados do ranking recebidos:', data);
         setEmployeesTask(data);
       } catch (error) {
         console.error('Erro ao buscar ranking:', error);
       }
     };
-
-    fetchRanking();
-  }, [filterTask]);
-
   
+    fetchRanking();
+  }, [authContext.authData, filterTask]);
 
   const renderEmployee = ({ item, index }: { item: EmployeeTask; index: number }) => (
     <View style={styles.row}>
       <Text style={[styles.cell, { fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?180:100 }]}>{item.name}</Text>
-      <Text style={[styles.cell, { fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?180:100 }]}>{item.descricao}</Text>
+      <Text style={[styles.cell, { fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?220:140 }]}>{item.descricao}</Text>
       <Text style={[styles.cell, { fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?180:100 }]}>{item.funcionario}</Text>
       <Text style={[styles.cell, { fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?180:100 }]}>{item.fechamento}</Text>
       <Text style={[styles.cell, { fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?180:100 }]}>{item.points}</Text>
+      {item.status === 'Não Entregue' && (
+        <TouchableOpacity style={[styles.botao, { backgroundColor: "#00f"}]}><Text style={[styles.cell, { color: "#fff", fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?180:100 }]}>Relançar</Text></TouchableOpacity>
+      )}
+      {item.status === 'Em Desenvolvimento' && (
+        <>
+          <TouchableOpacity style={[styles.botao, { backgroundColor: "#0f0"}]}><Text style={[styles.cell, { fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?150:100, color: "#fff" }]}>Editar</Text></TouchableOpacity>
+          <TouchableOpacity style={[styles.botao, { backgroundColor: "#f00"}]}><Text style={[styles.cell, { fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?150:100, color: "#fff" }]}>Cancelar</Text></TouchableOpacity>
+        </>
+      )}
     </View>
   );
 
   return (
-  <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+  <ScrollView horizontal showsHorizontalScrollIndicator={true}>
     <View style={[styles.container, {height: height * 0.5 }]}>
       <View style={styles.tableHeader}>
         <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12, minWidth: 100 }]}>Task</Text>
-        <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12, minWidth: 100 }]}>Descrição</Text>
+        <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?220:140 }]}>Descrição</Text>
         <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12, minWidth: 100 }]}>Funcionario</Text>
         <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12, minWidth: 100 }]}>Fechamento</Text>
         <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12, minWidth: 100, maxWidth: 200 }]}>Pts Possiveis</Text>
-        
+        {filterTask === 'Não Entregue' && (
+          <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12, minWidth: 100, maxWidth: 200 }]}>Relançar</Text>
+        )}
+        {filterTask === 'Em Desenvolvimento' && (
+          <>
+            <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12, minWidth: 100, maxWidth: 200 }]}>Editar</Text>
+            <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12, minWidth: 100, maxWidth: 200 }]}>Cancelar</Text>
+          </>
+      )}
       </View>
 
       <ScrollViewIndicator>
@@ -108,4 +130,9 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
   },
+  botao: {
+    paddingVertical: 5,
+    marginHorizontal: 5,
+    borderRadius: 5
+  }
 });

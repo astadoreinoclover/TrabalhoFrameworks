@@ -23,15 +23,29 @@ export default function Tasks() {
   return (
     <View style={styles.container}>
       <View style={{position: 'absolute', top:0}}><BarSuperior /></View>
-      <Text style={styles.title}>Tasks</Text>
-      <View style={[styles.area,{width: width * 0.9, height: height *0.6}]}>
-        <FilterTasks />
-        <Task />
-      </View>
+      
+      {(authContext.authData?.rule === 'Admin' || authContext.authData?.rule === 'Gerente') && (
+        <>
+        <Text style={styles.title}>Tasks</Text>
+          <View style={[styles.area,{width: width >=768? width*0.6:width*0.9, height: height *0.6}]}>
+            <FilterTasks />
+            <Task />
+          </View>
+        </>
+      )}
+      {authContext.authData?.rule === 'Funcionario' && (
+        <>
+          <View style={{display: 'flex', flexDirection: 'column', height: height * 0.8, alignItems: 'center'}}>
+            <Text style={[styles.title, {fontSize: width >= 768 ? 32 : 22}]}>Tela em Desenvolvimento</Text>
+          </View>
+        </>
+      )}
       <View style={{position: 'absolute', bottom:0}}><BarInferior /></View>
     </View>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   container: {
