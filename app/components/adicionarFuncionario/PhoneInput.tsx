@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '600',
         padding: 10,
-        color: '#2C3E50',
-        backgroundColor: '#ccc',
+        color: '#fff',
+        backgroundColor: '#2C3E50',
     },
     input: {
         flex: 1,

@@ -3,6 +3,7 @@ import { View, StyleSheet, useWindowDimensions,Text } from 'react-native';
 import BarSuperior from '@/components/bars/BarSuperior';
 import { AuthContext } from '@/contexts/Auth';
 import TaskForm from '@/components/tasks/TaskForm';
+import BackToTaskButton from '@/components/tasks/BotaoVoltarTasks';
 
 export default function AdicionarTask() {
   const { width, height } = useWindowDimensions();
@@ -18,9 +19,11 @@ export default function AdicionarTask() {
   return (
     <View style={styles.container}>
       <View style={{position: 'absolute', top:0}}><BarSuperior /></View>
-      <View style={{position: 'absolute', bottom:20 ,display: 'flex',flexDirection: width >=768 ? 'row' : 'column', height: width >=768 ? height*0.8: height*0.8}}>
+      <View style={{position: 'absolute', bottom:20 ,display: 'flex',flexDirection:'column', height: width >=768 ? height*0.8: height*0.8}}>
+        <Text style={styles.title}>Adicionar Task</Text>
         <TaskForm />
       </View>
+      <BackToTaskButton />
     </View>
   );
 }
@@ -33,6 +36,8 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#2c3e50',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    margin: 'auto',
+    fontSize: 25,
   },
 });
