@@ -52,18 +52,18 @@ export default function Ranking() {
 
   const renderEmployee = ({ item, index }: { item: EmployeeTask; index: number }) => (
     <View style={styles.row}>
-      <Text style={[styles.cell, { fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?180:100 }]}>{item.name}</Text>
-      <Text style={[styles.cell, { fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?220:140 }]}>{item.descricao}</Text>
-      <Text style={[styles.cell, { fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?180:100 }]}>{item.funcionario}</Text>
-      <Text style={[styles.cell, { fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?180:100 }]}>{item.fechamento}</Text>
-      <Text style={[styles.cell, { fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?180:100 }]}>{item.points}</Text>
+      <Text style={[styles.cell, { fontSize: width >= 990 ? 15 : 12, minWidth: width>=581?170:120 }]}>{item.name}</Text>
+      <Text style={[styles.cell, { fontSize: width >= 990 ? 13 : 10, minWidth: width>=581?170:120 }]}>{item.descricao}</Text>
+      <Text style={[styles.cell, { fontSize: width >= 990 ? 15 : 12, minWidth: width>=581?170:120 }]}>{item.funcionario}</Text>
+      <Text style={[styles.cell, { fontSize: width >= 990 ? 15 : 12, minWidth: width>=581?170:120 }]}>{item.fechamento}</Text>
+      <Text style={[styles.cell, { fontSize: width >= 990 ? 15 : 12, minWidth: width>=581?170:120 }]}>{item.points}</Text>
       {item.status === 'Não Entregue' && (
-        <TouchableOpacity style={[styles.botao, { backgroundColor: "#00f"}]}><Text style={[styles.cell, { color: "#fff", fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?180:100 }]}>Relançar</Text></TouchableOpacity>
+        <TouchableOpacity style={[styles.botao, { backgroundColor: "#00f"}]}><Text style={[styles.cell, { color: "#fff", fontSize: width >= 990 ? 15 : 12, minWidth: width>=581?160:100 }]}>Relançar</Text></TouchableOpacity>
       )}
       {item.status === 'Em Desenvolvimento' && (
         <>
-          <TouchableOpacity style={[styles.botao, { backgroundColor: "#0f0"}]}><Text style={[styles.cell, { fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?150:100, color: "#fff" }]}>Editar</Text></TouchableOpacity>
-          <TouchableOpacity style={[styles.botao, { backgroundColor: "#f00"}]}><Text style={[styles.cell, { fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?150:100, color: "#fff" }]}>Cancelar</Text></TouchableOpacity>
+          <TouchableOpacity style={[styles.botao, { backgroundColor: "#0f0"}]}><Text style={[styles.cell, { fontSize: width >= 990 ? 15 : 12, minWidth: width>=581?160:100, color: "#fff" }]}>Editar</Text></TouchableOpacity>
+          <TouchableOpacity style={[styles.botao, { backgroundColor: "#f00"}]}><Text style={[styles.cell, { fontSize: width >= 990 ? 15 : 12, minWidth: width>=581?160:100, color: "#fff" }]}>Cancelar</Text></TouchableOpacity>
         </>
       )}
     </View>
@@ -73,18 +73,18 @@ export default function Ranking() {
   <ScrollView horizontal showsHorizontalScrollIndicator={true}>
     <View style={[styles.container, {height: height * 0.5 }]}>
       <View style={styles.tableHeader}>
-        <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12, minWidth: 100 }]}>Task</Text>
-        <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?220:140 }]}>Descrição</Text>
-        <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12, minWidth: 100 }]}>Funcionario</Text>
-        <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12, minWidth: 100 }]}>Fechamento</Text>
-        <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12, minWidth: 100, maxWidth: 200 }]}>Pts Possiveis</Text>
+        <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?180:120 }]}>Task</Text>
+        <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?180:120 }]}>Descrição</Text>
+        <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?180:120 }]}>Funcionario</Text>
+        <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?180:120 }]}>Fechamento</Text>
+        <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?180:120 }]}>Pts Possiveis</Text>
         {filterTask === 'Não Entregue' && (
-          <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12, minWidth: 100, maxWidth: 200 }]}>Relançar</Text>
+          <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?180:120 }]}>Relançar</Text>
         )}
         {filterTask === 'Em Desenvolvimento' && (
           <>
-            <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12, minWidth: 100, maxWidth: 200 }]}>Editar</Text>
-            <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12, minWidth: 100, maxWidth: 200 }]}>Cancelar</Text>
+            <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12, minWidth: width>=581?180:120 }]}>Editar</Text>
+            <Text style={[styles.headerCell, { fontSize: width >= 990 ? 18 : 12,minWidth: width>=581?180:120 }]}>Cancelar</Text>
           </>
       )}
       </View>
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   headerCell: {
-    flex: 1,
+    // flex: 1,
     textAlign: 'center',
     fontWeight: 'bold',
     color: '#fff',
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   },
   botao: {
     paddingVertical: 5,
-    marginHorizontal: 5,
+    marginHorizontal: 10,
     borderRadius: 5
   }
 });

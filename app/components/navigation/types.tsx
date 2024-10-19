@@ -9,4 +9,5 @@ export type RootStackParamList = {
     RemoverFuncionario: undefined;
     AddFuncionario: undefined;
     Funcionario: { itemName: string, itemDepartament: string, itemId: number };
+    AdicionarTask: undefined;
 };

@@ -10,6 +10,7 @@ import EditarDados from "../(screens)/EditarDados";
 import RemoverFuncionario from "../(screens)/RemoverFuncionario";
 import AddFuncionario from "../(screens)/AdicionarFuncionario";
 import Funcionario from "../(screens)/Funcionario";
+import AdicionarTask from "../(screens)/AdicionarTask";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,7 @@ export function AppStack() {
             <Stack.Screen name="RemoverFuncionario" component={RemoverFuncionario} options={{headerShown: false}}/>
             <Stack.Screen name="AddFuncionario" component={AddFuncionario} options={{headerShown: false}}/>
             <Stack.Screen name="Funcionario" component={Funcionario} options={{headerShown: false}}/>
+            <Stack.Screen name="AdicionarTask" component={AdicionarTask} options={{headerShown: false}}/>
         </Stack.Navigator>
     )
 }

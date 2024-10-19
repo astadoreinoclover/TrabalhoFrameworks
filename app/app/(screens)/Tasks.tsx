@@ -6,6 +6,7 @@ import BarInferior from '@/components/bars/BarInferior';
 import FilterTasks from '@/components/tasks/FilterTasks';
 import { TaskContext } from '@/contexts/TaskContaxt';
 import Task from '@/components/tasks/Task';
+import AddTaskButton from '@/components/tasks/ButtonAddTask';
 
 export default function Tasks() {
   const { width, height } = useWindowDimensions();
@@ -31,6 +32,7 @@ export default function Tasks() {
             <FilterTasks />
             <Task />
           </View>
+          <AddTaskButton />
         </>
       )}
       {authContext.authData?.rule === 'Funcionario' && (
